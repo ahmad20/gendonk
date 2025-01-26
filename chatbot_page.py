@@ -2,10 +2,30 @@ import os
 import streamlit as st
 from openai import OpenAI
 
+def get_latest_checkpoint_model(client:OpenAI) -> str:
+    """Retrieve the last completed fine-tuning job and its checkpoint model."""
+    try:
+        # Fetch the list of fine-tuning jobs
+        jobs = client.fine_tuning.jobs.list()
+        
+        # Sort jobs by created timestamp in descending order
+        sorted_jobs = sorted(jobs.data, key=lambda x: x.created_at, reverse=True)
+        
+        # Find the most recent completed job with a checkpoint model
+        for job in sorted_jobs:
+            if job.status == "succeeded":
+                checkpoint_model = job.fine_tuned_model
+                if checkpoint_model:
+                    return checkpoint_model
+        
+        return None  # No completed jobs found
+    except Exception as e:
+        print(f"Error retrieving jobs: {e}")
+        return None
+    
 def index(client: OpenAI):
-    # Get model name from checkpoint file
-    with open("checkpoint_model", "r") as f:
-        checkpoint_model = f.read()
+    # Retrieve the latest fine-tuned model
+    checkpoint_model = get_latest_checkpoint_model(client)
 
     # Initialize session state for output text
     if "output_text" not in st.session_state:

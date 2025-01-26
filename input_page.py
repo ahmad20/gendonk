@@ -73,11 +73,6 @@ def fine_tune_model(client: OpenAI, file):
 
             if status == "succeeded":
                 st.success("Fine-tuning completed successfully!")
-                checkpoint_model = job_status.fine_tuned_model
-                # Save model name to a file
-                with open("checkpoint_model", "w") as f:
-                    f.write(checkpoint_model)
-                    st.write(f"Checkpoint Model: {checkpoint_model}")
                 break
             elif status == "cancelled":
                 st.error("Fine-tuning job was cancelled!")
