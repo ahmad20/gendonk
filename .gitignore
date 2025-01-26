@@ -1,4 +1,10 @@
 venv/
 .env
-.html
-.mp4
+*.html
+*.mp4
+*.csv
+__pycache__/
+temp/
+*.ipynb
+*.xlsx
+*.jsonl
