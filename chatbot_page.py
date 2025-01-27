@@ -24,6 +24,7 @@ def get_latest_checkpoint_model(client:OpenAI) -> str:
         return None
     
 def index(client: OpenAI):
+    st.set_page_config(layout="wide")
     # Retrieve the latest fine-tuned model
     checkpoint_model = get_latest_checkpoint_model(client)
 
@@ -74,3 +75,14 @@ def index(client: OpenAI):
             language="plain",
             wrap_lines=True
         )
+
+
+if __name__ == "__main__":
+    import dotenv
+
+    # Load environment variables from .env file
+    dotenv.load_dotenv(override=True)
+
+    # Initialize OpenAI client
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    index(client)
