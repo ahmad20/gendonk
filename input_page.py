@@ -86,6 +86,8 @@ def fine_tune_model(client: OpenAI, file):
 
 
 def index(client):
+    st.set_page_config(layout="wide")
+
     st.header("Input")
     st.write("Upload your Excel or CSV file with questions and answers.")
 
@@ -134,3 +136,13 @@ def index(client):
 
                 st.success("Conversion successful!")
                 fine_tune_model(client, jsonl_file)
+
+if __name__ == "__main__":
+    import dotenv
+
+    # Load environment variables from .env file
+    dotenv.load_dotenv(override=True)
+
+    # Initialize OpenAI client
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    index(client)
