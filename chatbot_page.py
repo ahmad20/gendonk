@@ -51,7 +51,8 @@ def index(client: OpenAI):
                     messages=[
                         {"role": "system", "content": os.getenv("GENDONK_SYSTEM_PROMPT")},
                         {"role": "user", "content": input_text}
-                    ]
+                    ],
+                    temperature=float(os.getenv("GENDONK_TEMPERATURE")),
                 )
                 # Extract the generated text
                 generated_text = completion.choices[0].message.content
